@@ -1,0 +1,11 @@
+SBPLLatticePlanner:
+  planner_type: "ARAPlanner" #ADPlanner
+  allocated_time: 10
+  initial_epsilon: 3.0
+  environment_type: "XYThetaLattice"
+  forward_search: false
+  force_scratch_limit: 500
+  nominalvel_mpersecs: 0.4
+  timetoturn45degsinplace_secs: 0.6
+  lethal_obstacle: 20
+

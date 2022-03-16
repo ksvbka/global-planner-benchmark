@@ -1,0 +1,56 @@
+<launch>
+    <!-- Map server -->
+    <arg name="map_file" default="$(find planner_benchmark)/launch/maps/world4.yaml"/>
+    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+    <!-- global planner -->
+    <node pkg="planner_benchmark" type="planner_benchmark" name="planner_global" output="screen">
+        <param name="base_global_planner" value="global_planner/GlobalPlanner"/>
+
+        <rosparam file="$(find planner_benchmark)/launch/param/cosmap_global.yaml" command="load" />
+        <rosparam file="$(find planner_benchmark)/launch/param/planner_global.yaml" command="load" />
+    </node>
+
+    <!-- navfn planner -->
+    <!-- <node pkg="planner_benchmark" type="planner_benchmark" name="planner_navfn" output="screen">
+        <param name="base_global_planner" value="navfn/NavfnROS"/>
+
+        <rosparam file="$(find planner_benchmark)/param/cosmap_global.yaml" command="load" />
+        <rosparam file="$(find planner_benchmark)/param/planner_navfn.yaml" command="load" />
+    </node> -->
+
+    <!-- sbpl planner -->
+    <!-- <node pkg="planner_benchmark" type="planner_benchmark" name="planner_sbpl" output="screen">
+        <param name="base_global_planner" value="SBPLLatticePlanner"/>
+
+        <rosparam file="$(find planner_benchmark)/param/cosmap_global.yaml" command="load" />
+        <rosparam file="$(find planner_benchmark)/param/planner_sbpl.yaml" command="load" />
+    </node> -->
+
+    <!-- dlux planner -->
+    <!-- <node pkg="planner_benchmark" type="planner_benchmark" name="planner_dlux" output="screen">
+        <param name="base_global_planner" value="nav_core_adapter::GlobalPlannerAdapter"/>
+
+        <rosparam file="$(find planner_benchmark)/param/cosmap_global.yaml" command="load" />
+        <rosparam file="$(find planner_benchmark)/param/planner_dlux_global.yaml" command="load" />
+    </node> -->
+
+    <!-- Show in Rviz   -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find planner_benchmark)/launch/rviz/show.rviz"/> <!--1-->
+
+    <include file="$(find turtlebot3_bringup)/launch/includes/description.launch.xml">
+        <arg name="model" value="burger" />
+    </include>
+
+    <node pkg="turtlebot3_fake" type="turtlebot3_fake_node" name="turtlebot3_fake_node" output="screen" />
+
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
+        <param name="publish_frequency" type="double" value="50.0" />
+    </node>
+
+  <!-- Run fake localization compatible with AMCL output -->
+  <node pkg="fake_localization" type="fake_localization" name="fake_localization" output="screen" />
+  
+  <!-- For fake localization we need static transform between /odom and /map -->
+  <node pkg="tf" type="static_transform_publisher" name="map_odom_broadcaster" args="0 0 0 0 0 0 /map /odom 100" />
+</launch>

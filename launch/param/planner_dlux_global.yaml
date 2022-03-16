@@ -1,0 +1,6 @@
+
+
+GlobalPlannerAdapter:
+  planner_name: dlux_global_planner::DluxGlobalPlanner
+DluxGlobalPlanner:
+  lethal: EXPENSIVE
