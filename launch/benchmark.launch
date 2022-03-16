@@ -12,27 +12,28 @@
     </node>
 
     <!-- navfn planner -->
-    <!-- <node pkg="planner_benchmark" type="planner_benchmark" name="planner_navfn" output="screen">
+    <node pkg="planner_benchmark" type="planner_benchmark" name="planner_navfn" output="screen">
         <param name="base_global_planner" value="navfn/NavfnROS"/>
 
-        <rosparam file="$(find planner_benchmark)/param/cosmap_global.yaml" command="load" />
-        <rosparam file="$(find planner_benchmark)/param/planner_navfn.yaml" command="load" />
-    </node> -->
+        <rosparam file="$(find planner_benchmark)/launch/param/cosmap_global.yaml" command="load" />
+        <rosparam file="$(find planner_benchmark)/launch/param/planner_navfn.yaml" command="load" />
+    </node>
 
     <!-- sbpl planner -->
-    <!-- <node pkg="planner_benchmark" type="planner_benchmark" name="planner_sbpl" output="screen">
+    <node pkg="planner_benchmark" type="planner_benchmark" name="planner_sbpl" output="screen">
         <param name="base_global_planner" value="SBPLLatticePlanner"/>
 
-        <rosparam file="$(find planner_benchmark)/param/cosmap_global.yaml" command="load" />
-        <rosparam file="$(find planner_benchmark)/param/planner_sbpl.yaml" command="load" />
-    </node> -->
+        <rosparam file="$(find planner_benchmark)/launch/param/cosmap_global.yaml" command="load" />
+        <rosparam file="$(find planner_benchmark)/launch/param/planner_sbpl.yaml" command="load" />
+        <param name="SBPLLatticePlanner/primitive_filename" value="$(find planner_benchmark)/launch/param/turtlebot3.mprim"/>
+    </node>
 
     <!-- dlux planner -->
     <!-- <node pkg="planner_benchmark" type="planner_benchmark" name="planner_dlux" output="screen">
         <param name="base_global_planner" value="nav_core_adapter::GlobalPlannerAdapter"/>
 
-        <rosparam file="$(find planner_benchmark)/param/cosmap_global.yaml" command="load" />
-        <rosparam file="$(find planner_benchmark)/param/planner_dlux_global.yaml" command="load" />
+        <rosparam file="$(find planner_benchmark)/launch/param/cosmap_global.yaml" command="load" />
+        <rosparam file="$(find planner_benchmark)/launch/param/planner_dlux_global.yaml" command="load" />
     </node> -->
 
     <!-- Show in Rviz   -->
