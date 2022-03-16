@@ -51,15 +51,17 @@ include_directories(
 )
 
 
-add_executable(planner_benchmark
-  src/planner_benchmark.cpp
-)
+add_executable(planner_benchmark  src/planner_benchmark.cpp)
 add_dependencies(planner_benchmark ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(planner_benchmark ${catkin_LIBRARIES})
 set_target_properties(planner_benchmark PROPERTIES OUTPUT_NAME planner_benchmark)
 
+add_executable(fake_state  src/fake_state.cpp)
+add_dependencies(fake_state ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(fake_state ${catkin_LIBRARIES})
+
 install(
-    TARGETS planner_benchmark
+    TARGETS planner_benchmark fake_state
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

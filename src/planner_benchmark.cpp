@@ -25,7 +25,6 @@ PlannerBenchmark::PlannerBenchmark(tf2_ros::Buffer& tf):
   // status, but this is useful for tools like nav_view and rviz
   ros::NodeHandle simple_nh("move_base_simple");
   goal_sub_ = simple_nh.subscribe<geometry_msgs::PoseStamped>("goal", 1, boost::bind(&PlannerBenchmark::goalCB, this, _1));
-  pose_sub_ = simple_nh.subscribe<geometry_msgs::PoseWithCovarianceStamped>("/initialpose", 1, boost::bind(&PlannerBenchmark::setPose, this, _1));
 
   // create the ros wrapper for the planner's costmap... and initializer a
   // pointer we'll use with the underlying map
@@ -95,10 +94,6 @@ bool PlannerBenchmark::makePlan(const geometry_msgs::PoseStamped& goal, std::vec
   return true;
 }
 
-void PlannerBenchmark::setPose(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr& goal) {
-  // Make plan
-  ROS_INFO("Set Pose ");
-}
 
 bool PlannerBenchmark::getRobotPose(geometry_msgs::PoseStamped& global_pose, costmap_2d::Costmap2DROS* costmap)
 {

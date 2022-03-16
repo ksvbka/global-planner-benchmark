@@ -39,19 +39,8 @@
     <!-- Show in Rviz   -->
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find planner_benchmark)/launch/rviz/show.rviz"/> <!--1-->
 
-    <include file="$(find turtlebot3_bringup)/launch/includes/description.launch.xml">
-        <arg name="model" value="burger" />
-    </include>
-
-    <node pkg="turtlebot3_fake" type="turtlebot3_fake_node" name="turtlebot3_fake_node" output="screen" />
-
-    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
-        <param name="publish_frequency" type="double" value="50.0" />
-    </node>
-
-  <!-- Run fake localization compatible with AMCL output -->
-  <node pkg="fake_localization" type="fake_localization" name="fake_localization" output="screen" />
-  
+    <node pkg="planner_benchmark" type="fake_state" name="fake_state_node" output="screen" />
+ 
   <!-- For fake localization we need static transform between /odom and /map -->
   <node pkg="tf" type="static_transform_publisher" name="map_odom_broadcaster" args="0 0 0 0 0 0 /map /odom 100" />
 </launch>

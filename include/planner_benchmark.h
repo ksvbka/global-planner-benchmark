@@ -30,7 +30,6 @@ class PlannerBenchmark {
   geometry_msgs::PoseStamped global_pose_;
 
   ros::Subscriber goal_sub_;
-  ros::Subscriber pose_sub_;
   costmap_2d::Costmap2DROS* planner_costmap_ros_;
 
   pluginlib::ClassLoader<nav_core::BaseGlobalPlanner> bgp_loader_;
