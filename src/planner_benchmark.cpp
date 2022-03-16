@@ -1,5 +1,6 @@
-#include <planner_benchmark.h>
+#include <chrono>
 
+#include <planner_benchmark.h>
 #include <geometry_msgs/Twist.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 #include <tf2_ros/transform_listener.h>
@@ -56,8 +57,12 @@ PlannerBenchmark::~PlannerBenchmark() {
 }
 
 void PlannerBenchmark::goalCB(const geometry_msgs::PoseStamped::ConstPtr& goal) {
-  ROS_INFO("Make plan with goal: ");
+  ros::Time start = ros::Time::now();
   makePlan(*goal, *planner_plan_);
+
+  ros::Duration elapsed = ros::Time::now() - start;
+  std::string node_name = ros::this_node::getName();
+  ROS_INFO("[%s] \t - time: %.6fs - path size: %ld", node_name.c_str(), elapsed.toSec(), planner_plan_->size());
 }
 
 bool PlannerBenchmark::makePlan(const geometry_msgs::PoseStamped& goal, std::vector<geometry_msgs::PoseStamped>& plan) {
