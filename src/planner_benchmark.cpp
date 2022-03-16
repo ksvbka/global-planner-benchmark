@@ -23,7 +23,8 @@ PlannerBenchmark::PlannerBenchmark(tf2_ros::Buffer& tf):
   // messages over a topic they won't get any useful information back about its
   // status, but this is useful for tools like nav_view and rviz
   ros::NodeHandle simple_nh("move_base_simple");
-  // goal_sub_ = simple_nh.subscribe<geometry_msgs::PoseStamped>("goal", 1, boost::bind(&MoveBase::goalCB, this, _1));
+  goal_sub_ = simple_nh.subscribe<geometry_msgs::PoseStamped>("goal", 1, boost::bind(&PlannerBenchmark::goalCB, this, _1));
+  pose_sub_ = simple_nh.subscribe<geometry_msgs::PoseWithCovarianceStamped>("/initialpose", 1, boost::bind(&PlannerBenchmark::setPose, this, _1));
 
   // create the ros wrapper for the planner's costmap... and initializer a
   // pointer we'll use with the underlying map
@@ -52,6 +53,88 @@ PlannerBenchmark::~PlannerBenchmark() {
   
   delete planner_plan_;
   planner_.reset();
+}
+
+void PlannerBenchmark::goalCB(const geometry_msgs::PoseStamped::ConstPtr& goal) {
+  ROS_INFO("Make plan with goal: ");
+  makePlan(*goal, *planner_plan_);
+}
+
+bool PlannerBenchmark::makePlan(const geometry_msgs::PoseStamped& goal, std::vector<geometry_msgs::PoseStamped>& plan) {
+  boost::unique_lock<costmap_2d::Costmap2D::mutex_t> lock(*(planner_costmap_ros_->getCostmap()->getMutex()));
+
+  //make sure to set the plan to be empty initially
+  plan.clear();
+
+  //since this gets called on handle activate
+  if(planner_costmap_ros_ == NULL) {
+    ROS_ERROR("Planner costmap ROS is NULL, unable to create global plan");
+    return false;
+  }
+
+  //get the starting pose of the robot
+  geometry_msgs::PoseStamped global_pose;
+  if(!getRobotPose(global_pose, planner_costmap_ros_)) {
+    ROS_WARN("Unable to get starting pose of robot, unable to create global plan");
+    return false;
+  }
+
+  const geometry_msgs::PoseStamped& start = global_pose;
+
+  //if the planner fails or returns a zero length plan, planning failed
+  if(!planner_->makePlan(start, goal, plan) || plan.empty()){
+    ROS_DEBUG_NAMED("move_base","Failed to find a  plan to point (%.2f, %.2f)", goal.pose.position.x, goal.pose.position.y);
+    return false;
+  }
+
+  return true;
+}
+
+void PlannerBenchmark::setPose(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr& goal) {
+  // Make plan
+  ROS_INFO("Set Pose ");
+}
+
+bool PlannerBenchmark::getRobotPose(geometry_msgs::PoseStamped& global_pose, costmap_2d::Costmap2DROS* costmap)
+{
+  tf2::toMsg(tf2::Transform::getIdentity(), global_pose.pose);
+  geometry_msgs::PoseStamped robot_pose;
+  tf2::toMsg(tf2::Transform::getIdentity(), robot_pose.pose);
+  robot_pose.header.frame_id = robot_base_frame_;
+  robot_pose.header.stamp = ros::Time(); // latest available
+  ros::Time current_time = ros::Time::now();  // save time for checking tf delay later
+
+  // get robot pose on the given costmap frame
+  try
+  {
+    tf_.transform(robot_pose, global_pose, costmap->getGlobalFrameID());
+  }
+  catch (tf2::LookupException& ex)
+  {
+    ROS_ERROR_THROTTLE(1.0, "No Transform available Error looking up robot pose: %s\n", ex.what());
+    return false;
+  }
+  catch (tf2::ConnectivityException& ex)
+  {
+    ROS_ERROR_THROTTLE(1.0, "Connectivity Error looking up robot pose: %s\n", ex.what());
+    return false;
+  }
+  catch (tf2::ExtrapolationException& ex)
+  {
+    ROS_ERROR_THROTTLE(1.0, "Extrapolation Error looking up robot pose: %s\n", ex.what());
+    return false;
+  }
+
+  // check if global_pose time stamp is within costmap transform tolerance
+  if (current_time.toSec() - global_pose.header.stamp.toSec() > costmap->getTransformTolerance())
+  {
+    ROS_WARN_THROTTLE(1.0, "Transform timeout for %s. " \
+                      "Current time: %.4f, pose stamp: %.4f, tolerance: %.4f", costmap->getName().c_str(),
+                      current_time.toSec(), global_pose.header.stamp.toSec(), costmap->getTransformTolerance());
+    return false;
+  }
+
+  return true;
 }
 
 int main(int argc, char* argv[]) {
