@@ -1,6 +1,6 @@
 SBPLLatticePlanner:
   planner_type: "ARAPlanner" #ADPlanner
-  allocated_time: 10
+  allocated_time: 5
   initial_epsilon: 3.0
   environment_type: "XYThetaLattice"
   forward_search: false

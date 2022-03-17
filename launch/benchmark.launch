@@ -29,12 +29,12 @@
     </node>
 
     <!-- dlux planner -->
-    <!-- <node pkg="planner_benchmark" type="planner_benchmark" name="planner_dlux" output="screen">
+    <node pkg="planner_benchmark" type="planner_benchmark" name="planner_dlux" output="screen">
         <param name="base_global_planner" value="nav_core_adapter::GlobalPlannerAdapter"/>
 
         <rosparam file="$(find planner_benchmark)/param/cosmap_global.yaml" command="load" />
         <rosparam file="$(find planner_benchmark)/param/planner_dlux_global.yaml" command="load" />
-    </node> -->
+    </node>
 
     <!-- Show in Rviz   -->
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find planner_benchmark)/param/show.rviz"/> <!--1-->
