@@ -25,10 +25,7 @@
 
         <rosparam file="$(find planner_benchmark)/param/cosmap_global.yaml" command="load" />
         <rosparam file="$(find planner_benchmark)/param/planner_sbpl.yaml" command="load" />
-        <param name="SBPLLatticePlanner/primitive_filename" value="$(find planner_benchmark)/param/mprim/unicycle_5cm.mprim" />
-        <!-- <param name="SBPLLatticePlanner/primitive_filename" value="$(find planner_benchmark)/param/mprim/unicycle_5cm_expensive_turn_in_place.mprim" /> -->
-        <!-- <param name="SBPLLatticePlanner/primitive_filename" value="$(find planner_benchmark)/param/mprim/unicycle_highcost_5cm.mprim" /> -->
-        <!-- <param name="SBPLLatticePlanner/primitive_filename" value="$(find planner_benchmark)/param/mprim/unicycle_5cm_noreverse_trolley.mprim" /> -->
+        <param name="SBPLLatticePlanner/primitive_filename" value="$(find planner_benchmark)/param/mprim/non_uniform_res005_rad1_err005.mprim" />
     </node>
 
     <!-- dlux planner -->

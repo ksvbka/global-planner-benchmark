@@ -4,7 +4,6 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /Maps1/Cost Map1
         - /Paths1
       Splitter Ratio: 0.5
     Tree Height: 731
@@ -162,7 +161,7 @@ Visualization Manager:
         - Alpha: 1
           Buffer Length: 1
           Class: rviz/Path
-          Color: 252; 233; 79
+          Color: 0; 0; 0
           Enabled: true
           Head Diameter: 0.30000001192092896
           Head Length: 0.20000000298023224
@@ -222,10 +221,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 19.4013729095459
+      Scale: 20.52440071105957
       Target Frame: <Fixed Frame>
-      X: -1.714895248413086
-      Y: -2.7658772468566895
+      X: -2.3895652294158936
+      Y: -2.011798143386841
     Saved: ~
 Window Geometry:
   Displays:

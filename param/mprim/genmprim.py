@@ -34,6 +34,8 @@ import numpy as np
 import rospkg
 
 '''
+FIXME: update script base on genmprim.m
+
 USAGE:
 
 Generates circular motion primitives with min turning radius and saves them into a file.
