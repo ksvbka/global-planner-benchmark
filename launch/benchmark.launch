@@ -1,49 +1,47 @@
 <launch>
     <!-- Map server -->
-    <arg name="map_file" default="$(find planner_benchmark)/launch/maps/world4.yaml"/>
+    <arg name="map_file" default="$(find planner_benchmark)/maps/world4.yaml"/>
     <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
 
     <!-- global planner -->
     <node pkg="planner_benchmark" type="planner_benchmark" name="planner_global" output="screen">
         <param name="base_global_planner" value="global_planner/GlobalPlanner"/>
 
-        <rosparam file="$(find planner_benchmark)/launch/param/cosmap_global.yaml" command="load" />
-        <rosparam file="$(find planner_benchmark)/launch/param/planner_global.yaml" command="load" />
+        <rosparam file="$(find planner_benchmark)/param/cosmap_global.yaml" command="load" />
+        <rosparam file="$(find planner_benchmark)/param/planner_global.yaml" command="load" />
     </node>
 
     <!-- navfn planner -->
     <node pkg="planner_benchmark" type="planner_benchmark" name="planner_navfn" output="screen">
         <param name="base_global_planner" value="navfn/NavfnROS"/>
 
-        <rosparam file="$(find planner_benchmark)/launch/param/cosmap_global.yaml" command="load" />
-        <rosparam file="$(find planner_benchmark)/launch/param/planner_navfn.yaml" command="load" />
+        <rosparam file="$(find planner_benchmark)/param/cosmap_global.yaml" command="load" />
+        <rosparam file="$(find planner_benchmark)/param/planner_navfn.yaml" command="load" />
     </node>
 
     <!-- sbpl planner -->
     <node pkg="planner_benchmark" type="planner_benchmark" name="planner_sbpl" output="screen">
         <param name="base_global_planner" value="SBPLLatticePlanner"/>
 
-        <rosparam file="$(find planner_benchmark)/launch/param/cosmap_global.yaml" command="load" />
-        <rosparam file="$(find planner_benchmark)/launch/param/planner_sbpl.yaml" command="load" />
-        <param name="SBPLLatticePlanner/primitive_filename" value="$(find planner_benchmark)/launch/param/mprim/unicycle_5cm.mprim" />
-        <!-- <param name="SBPLLatticePlanner/primitive_filename" value="$(find planner_benchmark)/launch/param/mprim/unicycle_5cm_expensive_turn_in_place.mprim" /> -->
-        <!-- <param name="SBPLLatticePlanner/primitive_filename" value="$(find planner_benchmark)/launch/param/mprim/unicycle_highcost_5cm.mprim" /> -->
-        <!-- <param name="SBPLLatticePlanner/primitive_filename" value="$(find planner_benchmark)/launch/param/mprim/unicycle_5cm_noreverse_trolley.mprim" /> -->
+        <rosparam file="$(find planner_benchmark)/param/cosmap_global.yaml" command="load" />
+        <rosparam file="$(find planner_benchmark)/param/planner_sbpl.yaml" command="load" />
+        <param name="SBPLLatticePlanner/primitive_filename" value="$(find planner_benchmark)/param/mprim/unicycle_5cm.mprim" />
+        <!-- <param name="SBPLLatticePlanner/primitive_filename" value="$(find planner_benchmark)/param/mprim/unicycle_5cm_expensive_turn_in_place.mprim" /> -->
+        <!-- <param name="SBPLLatticePlanner/primitive_filename" value="$(find planner_benchmark)/param/mprim/unicycle_highcost_5cm.mprim" /> -->
+        <!-- <param name="SBPLLatticePlanner/primitive_filename" value="$(find planner_benchmark)/param/mprim/unicycle_5cm_noreverse_trolley.mprim" /> -->
     </node>
 
     <!-- dlux planner -->
     <!-- <node pkg="planner_benchmark" type="planner_benchmark" name="planner_dlux" output="screen">
         <param name="base_global_planner" value="nav_core_adapter::GlobalPlannerAdapter"/>
 
-        <rosparam file="$(find planner_benchmark)/launch/param/cosmap_global.yaml" command="load" />
-        <rosparam file="$(find planner_benchmark)/launch/param/planner_dlux_global.yaml" command="load" />
+        <rosparam file="$(find planner_benchmark)/param/cosmap_global.yaml" command="load" />
+        <rosparam file="$(find planner_benchmark)/param/planner_dlux_global.yaml" command="load" />
     </node> -->
 
     <!-- Show in Rviz   -->
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find planner_benchmark)/launch/rviz/show.rviz"/> <!--1-->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find planner_benchmark)/param/show.rviz"/> <!--1-->
 
     <node pkg="planner_benchmark" type="fake_state" name="fake_state_node" output="screen" />
- 
-  <!-- For fake localization we need static transform between /odom and /map -->
-  <node pkg="tf" type="static_transform_publisher" name="map_odom_broadcaster" args="0 0 0 0 0 0 /map /odom 100" />
+    <node pkg="tf" type="static_transform_publisher" name="map_odom_broadcaster" args="0 0 0 0 0 0 /map /odom 100" />
 </launch>
