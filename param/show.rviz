@@ -5,7 +5,6 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Paths1
-        - /Paths1/sbpl1
       Splitter Ratio: 0.5
     Tree Height: 731
   - Class: rviz/Selection
@@ -246,10 +245,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 24.985658645629883
+      Scale: 17.623416900634766
       Target Frame: <Fixed Frame>
-      X: -8.637306213378906
-      Y: -3.022778034210205
+      X: 0
+      Y: 0
     Saved: ~
 Window Geometry:
   Displays:
