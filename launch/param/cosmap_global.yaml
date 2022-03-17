@@ -6,14 +6,10 @@ global_costmap:
   update_frequency: 0.1
   publish_frequency: 0.1
   transform_tolerance: 0.5
-
-  # static_map: true
   resolution: 0.05
-  inflation_radius: 1.0
-  cost_scaling_factor: 3.0
  
-  footprint: [[-0.105, -0.105], [-0.105, 0.105], [0.041, 0.105], [0.041, -0.105]]
-  #robot_radius: 0.105
+  # footprint: [[-0.105, -0.105], [-0.105, 0.105], [0.041, 0.105], [0.041, -0.105]]
+  robot_radius: 0.25
 
   inflation_layer:
     inflation_radius: 1.62

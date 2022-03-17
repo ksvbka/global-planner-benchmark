@@ -4,6 +4,7 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
+        - /Maps1/Cost Map1
         - /Paths1
       Splitter Ratio: 0.5
     Tree Height: 731
@@ -86,7 +87,7 @@ Visualization Manager:
       Value: true
     - Class: rviz/Group
       Displays:
-        - Alpha: 0.5
+        - Alpha: 0.699999988079071
           Class: rviz/Map
           Color Scheme: costmap
           Draw Behind: false
@@ -221,10 +222,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 19.173860549926758
+      Scale: 19.4013729095459
       Target Frame: <Fixed Frame>
-      X: -1.4603211879730225
-      Y: -0.052154336124658585
+      X: -1.714895248413086
+      Y: -2.7658772468566895
     Saved: ~
 Window Geometry:
   Displays:
